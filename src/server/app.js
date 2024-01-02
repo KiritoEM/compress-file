@@ -22,6 +22,7 @@ app.get("/home", (req, res) => {
 });
 
 app.post("/compress", upload.single("file"), (req, res) => {
+  const { extension } = req.body;
   if (req.file) {
     console.log("file uploaded.", req.file);
   }
@@ -30,7 +31,7 @@ app.post("/compress", upload.single("file"), (req, res) => {
     `./fichier_to_compressed/${file_name}`
   );
   const file_destination = fs.createWriteStream(
-    `./fichier_compressé/${file_name}.zip`
+    `./fichier_compressé/${file_name}.${extension}`
   );
   const gzip = zlib.createGzip();
   let response = file_source.pipe(gzip).pipe(file_destination);
