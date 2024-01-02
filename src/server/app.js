@@ -33,7 +33,11 @@ app.post("/compress", upload.single("file"), (req, res) => {
     `./fichier_compressé/${file_name}.zip`
   );
   const gzip = zlib.createGzip();
-  file_source.pipe(gzip).pipe(file_destination);
+  let response = file_source.pipe(gzip).pipe(file_destination);
+
+  if (response) {
+    res.status(200).json("Fichier compressé avec succés");
+  }
 });
 
 module.exports = app;
